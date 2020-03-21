@@ -18,21 +18,21 @@
   
   
   <title>Druid-Coordinator源码分析 | Seth&#39;s Blog</title>
-  <meta name="description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。">
+  <meta name="description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。    &amp;lt; !–more–&amp;gt; 源码分析 Druid 版本: druid-0.12.3  DruidCoordinator    DruidCoordin">
 <meta name="keywords" content="Apache Druid,Bigdata,OLAP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Druid-Coordinator源码分析">
 <meta property="og:url" content="http://sethblog.cn/2020/03/20/Druid-Coordinator源码分析/index.html">
 <meta property="og:site_name" content="Seth&#39;s Blog">
-<meta property="og:description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。">
+<meta property="og:description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。    &amp;lt; !–more–&amp;gt; 源码分析 Druid 版本: druid-0.12.3  DruidCoordinator    DruidCoordin">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/18033737-a1d95d65f512b0b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/18033737-f735d21d8a63562c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/18033737-6ab78766f6c781e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2020-03-21T14:01:59.575Z">
+<meta property="og:updated_time" content="2020-03-21T14:03:52.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Druid-Coordinator源码分析">
-<meta name="twitter:description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。">
+<meta name="twitter:description" content="前言 Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。    &amp;lt; !–more–&amp;gt; 源码分析 Druid 版本: druid-0.12.3  DruidCoordinator    DruidCoordin">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/18033737-a1d95d65f512b0b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <!-- Canonical links -->
   <link rel="canonical" href="http://sethblog.cn/2020/03/20/Druid-Coordinator源码分析/index.html">
@@ -333,7 +333,7 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>Druid Coordinator 服务在整个Druid架构中的主要作用是协调Segments在历史节点之间的分布。其主要功能包括是segments在historical之间分布均衡，rules管理，segments清理合并等等。  </p>
 </blockquote>
-<a id="more"></a>
+<p>&lt; !–more–&gt;</p>
 <h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><blockquote>
 <p>Druid 版本: druid-0.12.3</p>
 </blockquote>
