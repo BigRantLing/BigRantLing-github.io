@@ -17,20 +17,26 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>Seth&#39;s Blog</title>
-  <meta name="description" content="AU8l4bf6xR">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Seth&#39;s Blog">
-<meta property="og:url" content="http://sethblog.cn/baidu_verify_AU8l4bf6xR.html">
+  <title>火焰图实践 | Seth&#39;s Blog</title>
+  <meta name="description" content="1. 场景描述：因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时">
+<meta name="keywords" content="-Java -Problem Shoting -性能分析 -火焰图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="火焰图实践">
+<meta property="og:url" content="http://sethblog.cn/2020/03/22/火焰图实践/index.html">
 <meta property="og:site_name" content="Seth&#39;s Blog">
-<meta property="og:description" content="AU8l4bf6xR">
+<meta property="og:description" content="1. 场景描述：因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-03-19T02:05:07.791Z">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/01.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/02.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/03.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/04.png">
+<meta property="og:updated_time" content="2020-03-22T08:12:15.755Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Seth&#39;s Blog">
-<meta name="twitter:description" content="AU8l4bf6xR">
+<meta name="twitter:title" content="火焰图实践">
+<meta name="twitter:description" content="1. 场景描述：因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时">
+<meta name="twitter:image" content="http://sethblog.cn/2020/03/22/火焰图实践/01.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://sethblog.cn/baidu_verify_AU8l4bf6xR.html">
+  <link rel="canonical" href="http://sethblog.cn/2020/03/22/火焰图实践/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Seth&#39;s Blog" type="application/atom+xml">
   
@@ -300,29 +306,61 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="page-" class="article article-type-page" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-火焰图实践" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      火焰图实践
+    </h1>
+  
+
       
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/baidu_verify_AU8l4bf6xR.html" class="article-date">
-	  <time datetime="2020-03-21T04:15:12.161Z" itemprop="datePublished">2020-03-21</time>
+	<a href="/2020/03/22/火焰图实践/" class="article-date">
+	  <time datetime="2020-03-22T08:03:15.000Z" itemprop="datePublished">2020-03-22</time>
 	</a>
 </span>
         
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/代码分析/">代码分析</a>
+  </span>
+
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Java-Problem-Shoting-性能分析-火焰图/">-Java -Problem Shoting -性能分析 -火焰图</a>
+  </span>
+
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/baidu_verify_AU8l4bf6xR.html#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/22/火焰图实践/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        AU8l4bf6xR
+        <p><img src="01.png" alt></p>
+<h2 id="1-场景描述："><a href="#1-场景描述：" class="headerlink" title="1. 场景描述："></a>1. 场景描述：</h2><p>因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。<br>串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时长的我们优先改造,也就是我们需要找到组件的性能瓶颈。但是如何确认呢?最终，我是通过火焰图观察，找出了耗时比较长的过程。下面记录一下这个过程，以便日后需要的时候可以有所帮助。  </p>
+<h2 id="2-火焰图"><a href="#2-火焰图" class="headerlink" title="2. 火焰图"></a>2. 火焰图</h2><blockquote>
+<p>火焰图是通过可交互的图片反映出程序执行过程中的调用栈和大致的CPU占用百分比。在火焰图中，顺着Y轴从下往上看表示的是调用顺序，高度表示的就是调用栈的深度。顺着X轴看，一个方法的长度表示的就是这个方法的被抽到的样本数，被抽到的次数越多，占用的CPU时间就越长。当把鼠标放在一个方法上时，会显示一段说明，例如<code>(5222 samples, 7.6%)</code>,这个表示的就是，这个方法在采样期间被采样了5222次，占用总样本的7.6%。注意X轴不表示时间，不是说左边的方法一定在右边之前执行。火焰图应该是高低起伏的，如果都是很宽的平顶，那程序性能就需要重新评测了。另外，火焰图的颜色没有任何含义。</p>
+</blockquote>
+<p>火焰图是可交互的，在浏览器中我们打开火焰图之后可以直接<code>CTRL+F</code>进行搜索。输入完整的方法名或者正则表达式之后，所有匹配到的方法都是高亮显示出来。    </p>
+<p><img src="02.png" alt="Search.png"><br>单击这些高亮部分就会放大这一部分，显示选中方法的子方法(被调用的方法)。这样就可以在这张图中搜索自己想要确认的模块，然后找到比较宽的部分，定位到代码，确定是否可以修改。  </p>
+<h2 id="3-生成火焰图"><a href="#3-生成火焰图" class="headerlink" title="3. 生成火焰图"></a>3. 生成火焰图</h2><h3 id="3-1-工具"><a href="#3-1-工具" class="headerlink" title="3.1 工具"></a>3.1 工具</h3><p>火焰图生成工具：<a href="https://pan.baidu.com/s/1EuIauy4rFNxaIwXhMAXW5Q" target="_blank" rel="noopener">javaPfro.zip</a><br>提取码：<code>76o9</code><br>这个工具包解压之后会用两个文件夹：<br><code>async-profiler-master</code><br><code>FlameGraph-master</code><br>文件夹下部分可执行文件，可能需要755权限。这里不做一一声明，直接更改文件夹下所有文件的权限。<br><code>chmod -R 755 async-profiler-master/*</code><br><code>chmod -R 755 FlameGraph-master/*</code></p>
+<h3 id="3-2-操作步骤"><a href="#3-2-操作步骤" class="headerlink" title="3.2 操作步骤"></a>3.2 操作步骤</h3><blockquote>
+<p>火焰图只是以图片形式展示出了CPU中的调用栈，实际的数据还是需要从CPU中采集。所以生成火焰图共分为两步：采样和生成svg图。</p>
+<p>####3.2.1 采样<br>采样使用<code>async-profiler-master</code>工具，具体命令如下：<br><code>./async-profiler-master/profiler.sh -d 10 -o collapsed -f /tmp/collapsed.txt 1234</code><br>以上命令表示的意思是，采样时间为10秒，采样得到的数据重定向到<code>/tmp/collapsed.txt</code>，被采样进程id为1234。  </p>
+</blockquote>
+<h4 id="3-2-2-生成svg图"><a href="#3-2-2-生成svg图" class="headerlink" title="3.2.2 生成svg图"></a>3.2.2 生成svg图</h4><p>根据采样数据生成svg图，使用的是<code>FlameGraph-master</code>,具体命令如下:<br><code>./FlameGraph-master/flamegraph.pl --colors=java /tmp/collapsed.txt &gt; flamegraph.svg</code><br>命令表示的意思是把<code>/tmp/collapsed.txt</code>这个文件转换svg火焰图，文件名为<code>flamegraph.svg</code>。<br>然后,把这个文件拉到window环境下，用浏览器就可以打开了。这里我用的是chrome浏览器。    </p>
+<h2 id="4-分析火焰图"><a href="#4-分析火焰图" class="headerlink" title="4. 分析火焰图"></a>4. 分析火焰图</h2><p>分析火焰图一般需要先确定需要分析的类或方法名，或者代码入口方法，或者入口类。这样我们可以先定位到一个方法调用，再分析其调用栈。<br><img src="03.png" alt><br>例如，在这张图片中，我确定的方法是定义在<code>CoordinatorRunnable</code>类中的，就可以直接搜索这个类。定位到这个类我们可以明显地看到有三个方法占用了大部分的时间。再继续追踪调用栈。<br><img src="04.png" alt><br>可以看出，耗时大部分都花费在集合元素的比较上。这里我们如果需要优化的话，可以考虑一下比较器的逻辑或者可以根据场景判断一下是否可以选择其他的集合等等。</p>
+
       
     </div>
     <div class="article-footer">
@@ -331,7 +369,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://sethblog.cn/baidu_verify_AU8l4bf6xR.html" title="" target="_blank" rel="external">http://sethblog.cn/baidu_verify_AU8l4bf6xR.html</a>
+      <a href="http://sethblog.cn/2020/03/22/火焰图实践/" title="火焰图实践" target="_blank" rel="external">http://sethblog.cn/2020/03/22/火焰图实践/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -374,6 +412,16 @@
 
   <nav class="bar bar-footer clearfix" data-stick-bottom>
   <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2020/03/20/Coordinator源码分析/" title="Druid-Coordinator源码分析"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
   
   
   <!-- Button trigger modal -->
@@ -487,6 +535,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+
+
+
+   
 
 
 
