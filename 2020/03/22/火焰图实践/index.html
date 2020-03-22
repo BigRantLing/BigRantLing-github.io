@@ -26,12 +26,15 @@
 <meta property="og:site_name" content="Seth&#39;s Blog">
 <meta property="og:description" content="因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时长的我们优先改造,">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/![](01.png)">
-<meta property="og:updated_time" content="2020-03-22T08:23:25.747Z">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/01.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/02.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/03.png">
+<meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/04.png">
+<meta property="og:updated_time" content="2020-03-22T08:25:17.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="火焰图实践">
 <meta name="twitter:description" content="因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时长的我们优先改造,">
-<meta name="twitter:image" content="http://sethblog.cn/2020/03/22/火焰图实践/![](01.png)">
+<meta name="twitter:image" content="http://sethblog.cn/2020/03/22/火焰图实践/01.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://sethblog.cn/2020/03/22/火焰图实践/index.html">
   
@@ -305,16 +308,6 @@
   <div class="content">
   <article id="post-火焰图实践" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/![](01.png)" rel="gallery_ck82ry85j0002mcon7axs93bg">
-        <img src="/![](01.png)" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
     <div class="article-header">
       
         
@@ -354,6 +347,7 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <p>因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。<br>串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时长的我们优先改造,也就是我们需要找到组件的性能瓶颈。但是如何确认呢?最终，我是通过火焰图观察，找出了耗时比较长的过程。下面记录一下这个过程，以便日后需要的时候可以有所帮助。  </p>
+<p><img src="01.png" alt></p>
 <a id="more"></a>
 <h2 id="2-火焰图"><a href="#2-火焰图" class="headerlink" title="2. 火焰图"></a>2. 火焰图</h2><blockquote>
 <p>火焰图是通过可交互的图片反映出程序执行过程中的调用栈和大致的CPU占用百分比。在火焰图中，顺着Y轴从下往上看表示的是调用顺序，高度表示的就是调用栈的深度。顺着X轴看，一个方法的长度表示的就是这个方法的被抽到的样本数，被抽到的次数越多，占用的CPU时间就越长。当把鼠标放在一个方法上时，会显示一段说明，例如<code>(5222 samples, 7.6%)</code>,这个表示的就是，这个方法在采样期间被采样了5222次，占用总样本的7.6%。注意X轴不表示时间，不是说左边的方法一定在右边之前执行。火焰图应该是高低起伏的，如果都是很宽的平顶，那程序性能就需要重新评测了。另外，火焰图的颜色没有任何含义。</p>
