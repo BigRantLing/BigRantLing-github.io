@@ -19,7 +19,7 @@
   
   <title>火焰图实践 | Seth&#39;s Blog</title>
   <meta name="description" content="1. 场景描述：因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时">
-<meta name="keywords" content="-Java -Problem Shoting -性能分析 -火焰图">
+<meta name="keywords" content="Java,Problem Shoting,性能分析,火焰图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="火焰图实践">
 <meta property="og:url" content="http://sethblog.cn/2020/03/22/火焰图实践/index.html">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/02.png">
 <meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/03.png">
 <meta property="og:image" content="http://sethblog.cn/2020/03/22/火焰图实践/04.png">
-<meta property="og:updated_time" content="2020-03-22T08:13:41.161Z">
+<meta property="og:updated_time" content="2020-03-22T08:15:12.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="火焰图实践">
 <meta name="twitter:description" content="1. 场景描述：因为生产环境组件服务进程执行缓慢导致部分资源无法释放，进而引起了各种任务超时。研究源码发现，部分执行过长的是操作都是在单线程中串行 。这就意味着，单个过程的执行效率会影响到整个流程的调度周期。为此，我们需要对部分组件源码进行改造，串行改并行。串行改并行，我们要小心流程执行顺序之间的依赖关系和各个线程对共享变量的读写。这里的前提是我们得知道改哪里。其实我们的需求很明确，执行过程耗时">
@@ -232,7 +232,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Problem-Shoting-性能分析-火焰图/">-Java -Problem Shoting -性能分析 -火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -242,7 +242,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Java-Problem-Shoting-性能分析-火焰图/" style="font-size: 13px;">-Java -Problem Shoting -性能分析 -火焰图</a> <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a>
+      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/Java/" style="font-size: 13px;">Java</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a>
     </div>
   </div>
 
@@ -334,7 +334,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java-Problem-Shoting-性能分析-火焰图/">-Java -Problem Shoting -性能分析 -火焰图</a>
+	<a class="article-tag-link" href="/tags/Java/">Java</a>, <a class="article-tag-link" href="/tags/Problem-Shoting/">Problem Shoting</a>, <a class="article-tag-link" href="/tags/性能分析/">性能分析</a>, <a class="article-tag-link" href="/tags/火焰图/">火焰图</a>
   </span>
 
 
