@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="Seth&#39;s Blog">
 <meta property="og:description" content="服务常用命令【自用】组件日常运维命令，云备份。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-03-24T12:30:40.792Z">
+<meta property="og:updated_time" content="2020-03-24T12:31:54.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="组件运维常用命令">
 <meta name="twitter:description" content="服务常用命令【自用】组件日常运维命令，云备份。">
@@ -388,7 +388,7 @@
       
         <h1 id="服务常用命令【自用】"><a href="#服务常用命令【自用】" class="headerlink" title="服务常用命令【自用】"></a>服务常用命令【自用】</h1><p>组件日常运维命令，云备份。</p>
 <a id="more"></a>
-<h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><p><strong>zk snapshot 格式化</strong><br><code>java -cp ~/software/zookeeper-3.4.6.5/zookeeper-3.4.6.5.jar:/home/zookeeper/software/zookeeper/lib/* org.apache.zookeeper.server.SnapshotFormatter &lt;snapshot晚间路径&gt; &gt; ./snapshot.test</code><br>格式化之后可以通过解析文本获取到znode的相关信息，减少对zk集群访问的压力。</p>
+<h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><p><strong>zk snapshot 格式化</strong><br><code>java -cp ~/software/zookeeper-3.4.6.5/zookeeper-3.4.6.5.jar:/home/zookeeper/software/zookeeper/lib/* org.apache.zookeeper.server.SnapshotFormatter &lt;snapshot文件路径&gt; &gt; ./snapshot.test</code><br>格式化之后可以通过解析文本获取到znode的相关信息，减少对zk集群访问的压力。</p>
 <p><strong>ZK log日志格式化</strong><br>可以查看服务器的事务操作<br><code>java -cp .:/home/zookeeper/software/zookeeper/zookeeper-3.4.6.5.jar:/home/zookeeper/software/zookeeper/lib/* org.apache.zookeeper.server.LogFormatter /home/zookeeper/logs/version-2/log.701f247da &gt;&gt; ./logtest</code></p>
 <h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><ol>
 <li><p>查看服务端口是否正常<br><code>nc -z -w 1 127.0.0.1 8090</code></p>
