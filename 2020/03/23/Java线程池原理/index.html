@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://sethblog.cn/2020/03/23/Java线程池原理/04.png">
 <meta property="og:image" content="http://sethblog.cn/2020/03/23/Java线程池原理/05.png">
 <meta property="og:image" content="http://sethblog.cn/2020/03/23/Java线程池原理/06.png">
-<meta property="og:updated_time" content="2020-03-24T06:52:33.052Z">
+<meta property="og:updated_time" content="2020-03-24T07:49:34.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java线程池原理">
 <meta name="twitter:description" content="池化技术简单来说就是提前准备资源，当需要的时候可以直接获取，避免了在需要大量资源时因创建资源耗时而导致阻塞和过高的时延。常见的有线程池，连接池和内存池。 Java的线程池就是提前创建一定数量的线程，当需要线程处理相应工作的时候直接唤醒获取即可，从而增加系统的处理速度。">
@@ -253,7 +253,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -265,6 +265,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/24/Java中的锁/" class="title">Java中的锁</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-24T06:55:42.000Z" itemprop="datePublished">2020-03-24</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -410,7 +425,7 @@
 <li>runStat: 线程池的状态，有<strong><em>Running</em></strong>，<strong><em>Shutdown</em></strong>，<strong><em>Stop</em></strong>，<strong><em>Tidying</em></strong>，<strong><em>Terminate</em></strong>五种状态。</li>
 </ul>
 <p><img src="02.png" alt></p>
-<p>因为5种状态至少需要3位来表示，剩下的全部用来表示workerCount。所有COUNT_BITS为Interger.SIZE - 3 = 29位。CAPACITY表示的是最大容量，29表示的最大值为2^29 -1,即1 &lt;&lt; 29 -1（左移一位相当于乘以2， 1*2^29 -1），二级制表示为<code>00011111111111111111111111111111</code>。相当于低29为用来表是容量，高3位留下来表示状态。</p>
+<p>因为5种状态至少需要3位来表示，剩下的全部用来表示workerCount。所有COUNT_BITS为Interger.SIZE - 3 = 29位。CAPACITY表示的是最大容量，29表示的最大值为2^29 -1,即1 &lt;&lt; 29 -1（左移一位相当于乘以2， 1*2^29 -1），二级制表示为<code>00011111111111111111111111111111</code>。相当于低29位用来表示容量，高3位留下来表示状态。</p>
 <p>五种状态对应的表示分别如下：</p>
 <ul>
 <li><p><strong>RUNNING</strong>：<code>11100000000000000000000000000000</code></p>
@@ -540,6 +555,10 @@
   <div class="bar-inner">
   
   <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/03/24/Java中的锁/" title="Java中的锁"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
     
     
     <li class="next">
