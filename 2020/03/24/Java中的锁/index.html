@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="Seth&#39;s Blog">
 <meta property="og:description" content="有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-08T13:01:02.604Z">
+<meta property="og:updated_time" content="2020-04-08T14:58:28.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的锁">
 <meta name="twitter:description" content="有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。">
@@ -395,6 +395,13 @@
 <h4 id="1-3-2-乐观锁-悲观锁"><a href="#1-3-2-乐观锁-悲观锁" class="headerlink" title="1.3.2 乐观锁/悲观锁"></a>1.3.2 乐观锁/悲观锁</h4><p>按照是都对资源加锁，可以将所分为悲观锁和乐观锁。悲观锁和乐观锁是两种对立的锁思想，而不是指具体的两种锁。  </p>
 <p>悲观锁悲观地认为所有拿到线程的资源都会对资源进行操作，所以为了保证同步，需要对资源加锁。线程在持有资源的时候会对资源加锁，这样其他线程只能都能等到锁释放后，竞争获取到锁才能访问资源。这样可以保证操作的原子性和数据的可见性。Java中的Synchronized和ReentrantLock等独占锁都是悲观锁。</p>
 <p>而乐观锁与之相反，它乐观地认为大家拿到资源都不会对数据进行更新，所以访问资源的时候不需要加锁。但是它在写数据的时候需要判断数据是否进行了更改。乐观锁是一种无锁编程的思想，一般通过CAS实现，可以保证数据操作的可见性。缺点是CAS自旋会占用较多的CPU资源，而且CAS无法避免ABA问题。</p>
+<p>以上，悲观锁多用于写操作多于读操作的场景，而乐观锁则相反。  </p>
+<h4 id="1-3-3-独占锁-共享锁"><a href="#1-3-3-独占锁-共享锁" class="headerlink" title="1.3.3 独占锁/共享锁"></a>1.3.3 独占锁/共享锁</h4><p>独占锁又称之为排他锁。顾名思义，这种锁在某个时刻只能由一个线程获取，而其他的线程在锁被占有的情况下，只能等待。Java中的Synchronized和大多数Lock都是独占锁。  </p>
+<p>共享锁是指锁能够被多个线程所拥有。如果线程对某个资源加上了共享锁之后，其他线程则只能在这个资源上加共享锁，而不能加独占锁。或的共享锁的线程只能读取数据，不能更改数据。</p>
+<p>读写锁中的读锁就是共享锁，而写锁则为独占锁。  </p>
+<h4 id="1-3-4-自旋锁-互斥锁"><a href="#1-3-4-自旋锁-互斥锁" class="headerlink" title="1.3.4 自旋锁/互斥锁"></a>1.3.4 自旋锁/互斥锁</h4><p>在多核CPU中可能有多个线程同时执行，但是对于某些锁而言，在某个时刻只能由一个线程拥有。那么，没有获取到锁的线程该做些什么呢？1.如果线程一直循环尝试获取锁的话，这种锁称之为自旋锁；2.如果将没有获取到锁的线程阻塞起来，等待唤起，这种锁成为互斥锁。</p>
+<h4 id="1-3-5-重入锁-不可重入锁"><a href="#1-3-5-重入锁-不可重入锁" class="headerlink" title="1.3.5  重入锁/不可重入锁"></a>1.3.5  重入锁/不可重入锁</h4><p>当一个线程获取到锁之后未释放的情况下可以再次获取该锁的锁成为可重入锁。可重入锁能够在一定程度上避免死锁的情况。如下代码，如果锁不可重入，就会在执行B方法的lock.lock()时死锁：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        B();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//do something</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
