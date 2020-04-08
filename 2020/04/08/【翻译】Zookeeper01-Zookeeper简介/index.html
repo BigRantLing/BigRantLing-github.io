@@ -17,11 +17,11 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>【翻译】Zookeeper01-Zookeeper简介 | Seth&#39;s Blog</title>
+  <title>【翻译】01-Zookeeper简介 | Seth&#39;s Blog</title>
   <meta name="description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
-<meta name="keywords" content="Zookeeper,大数据">
+<meta name="keywords" content="zookeeper,大数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【翻译】Zookeeper01-Zookeeper简介">
+<meta property="og:title" content="【翻译】01-Zookeeper简介">
 <meta property="og:url" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/index.html">
 <meta property="og:site_name" content="Seth&#39;s Blog">
 <meta property="og:description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
@@ -29,9 +29,9 @@
 <meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkservice.jpg">
 <meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zknamespace.jpg">
 <meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkcomponents.jpg">
-<meta property="og:updated_time" content="2020-04-08T12:12:47.015Z">
+<meta property="og:updated_time" content="2020-04-08T12:19:29.823Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【翻译】Zookeeper01-Zookeeper简介">
+<meta name="twitter:title" content="【翻译】01-Zookeeper简介">
 <meta name="twitter:description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
 <meta name="twitter:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkservice.jpg">
   <!-- Canonical links -->
@@ -231,7 +231,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUC/">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asyn-syn/">asyn/syn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据组件/">大数据组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUC/">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asyn-syn/">asyn/syn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据组件/">大数据组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -241,7 +241,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/tags/asyn-syn/" style="font-size: 13px;">asyn/syn</a> <a href="/tags/java/" style="font-size: 13px;">java</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/大数据/" style="font-size: 13px;">大数据</a> <a href="/tags/大数据组件/" style="font-size: 13px;">大数据组件</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a> <a href="/tags/线程池/" style="font-size: 13px;">线程池</a>
+      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/asyn-syn/" style="font-size: 13px;">asyn/syn</a> <a href="/tags/java/" style="font-size: 13px;">java</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/大数据/" style="font-size: 13px;">大数据</a> <a href="/tags/大数据组件/" style="font-size: 13px;">大数据组件</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a> <a href="/tags/线程池/" style="font-size: 13px;">线程池</a>
     </div>
   </div>
 
@@ -269,7 +269,7 @@
                 <a class="category-link" href="/categories/大数据组件/">大数据组件</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/大数据组件/zookeeper/">zookeeper</a>
               </p>
               <p class="item-title">
-                <a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" class="title">【翻译】Zookeeper01-Zookeeper简介</a>
+                <a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" class="title">【翻译】01-Zookeeper简介</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-04-08T01:42:55.000Z" itemprop="datePublished">2020-04-08</time>
@@ -357,7 +357,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      【翻译】Zookeeper01-Zookeeper简介
+      【翻译】01-Zookeeper简介
     </h1>
   
 
@@ -378,7 +378,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Zookeeper/">Zookeeper</a>, <a class="article-tag-link" href="/tags/大数据/">大数据</a>
+	<a class="article-tag-link" href="/tags/zookeeper/">zookeeper</a>, <a class="article-tag-link" href="/tags/大数据/">大数据</a>
   </span>
 
 
@@ -452,7 +452,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" title="【翻译】Zookeeper01-Zookeeper简介" target="_blank" rel="external">http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/</a>
+      <a href="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" title="【翻译】01-Zookeeper简介" target="_blank" rel="external">http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/</a>
     </li>
     
     <li class="post-copyright-license">
