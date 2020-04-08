@@ -18,14 +18,18 @@
   
   
   <title>Java中的锁 | Seth&#39;s Blog</title>
-  <meta property="og:type" content="article">
+  <meta name="description" content="有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。">
+<meta name="keywords" content="java,多线程,asyn&#x2F;syn,JUC">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Java中的锁">
 <meta property="og:url" content="http://sethblog.cn/2020/03/24/Java中的锁/index.html">
 <meta property="og:site_name" content="Seth&#39;s Blog">
+<meta property="og:description" content="有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-03-24T06:55:42.746Z">
+<meta property="og:updated_time" content="2020-03-30T09:32:22.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的锁">
+<meta name="twitter:description" content="有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。">
   <!-- Canonical links -->
   <link rel="canonical" href="http://sethblog.cn/2020/03/24/Java中的锁/index.html">
   
@@ -213,7 +217,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Apache-Druid/">Apache Druid</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java多线程/">Java多线程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码分析/">代码分析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Apache-Druid/">Apache Druid</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java多线程/">Java多线程</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码分析/">代码分析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据组件/">大数据组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据组件/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -223,7 +227,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据组件/">大数据组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUC/">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asyn-syn/">asyn/syn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据组件/">大数据组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -233,7 +237,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/多线程/" style="font-size: 13px;">多线程</a> <a href="/tags/大数据组件/" style="font-size: 13px;">大数据组件</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a> <a href="/tags/线程池/" style="font-size: 13px;">线程池</a>
+      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/Zookeeper/" style="font-size: 13px;">Zookeeper</a> <a href="/tags/asyn-syn/" style="font-size: 13px;">asyn/syn</a> <a href="/tags/java/" style="font-size: 13px;">java</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/大数据/" style="font-size: 13px;">大数据</a> <a href="/tags/大数据组件/" style="font-size: 13px;">大数据组件</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a> <a href="/tags/线程池/" style="font-size: 13px;">线程池</a>
     </div>
   </div>
 
@@ -242,7 +246,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -254,6 +258,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/大数据组件/">大数据组件</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/大数据组件/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" class="title">【翻译】Zookeeper01-Zookeeper简介</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-08T01:42:55.000Z" itemprop="datePublished">2020-04-08</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -273,7 +292,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                
+                <a class="category-link" href="/categories/Java多线程/">Java多线程</a>
               </p>
               <p class="item-title">
                 <a href="/2020/03/24/Java中的锁/" class="title">Java中的锁</a>
@@ -314,21 +333,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/Apache-Druid/">Apache Druid</a>
-              </p>
-              <p class="item-title">
-                <a href="/2020/03/20/Coordinator源码分析/" class="title">Druid-Coordinator源码分析</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-03-20T09:08:34.000Z" itemprop="datePublished">2020-03-20</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -362,7 +366,17 @@
 	</a>
 </span>
         
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Java多线程/">Java多线程</a>
+  </span>
+
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JUC/">JUC</a>, <a class="article-tag-link" href="/tags/asyn-syn/">asyn/syn</a>, <a class="article-tag-link" href="/tags/java/">java</a>, <a class="article-tag-link" href="/tags/多线程/">多线程</a>
+  </span>
+
 
         
 
@@ -372,7 +386,16 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        
+        <p>有锁编程主要是保证不同线程对同一资源写操作的可见性，以防止不同线程读取到的内存状态不一致导致的不可预期结果。而Java中的有锁编程可以通过volatile，synchronized以及各种Lock类实现。那么，为了更好的理解并发读写的一致性，就不得不探究一下这些机制的实现和区别了。</p>
+<a id="more"></a>
+<h2 id="1-Synchronized，-Volatile和Lock的区别"><a href="#1-Synchronized，-Volatile和Lock的区别" class="headerlink" title="1. Synchronized， Volatile和Lock的区别"></a>1. Synchronized， Volatile和Lock的区别</h2><h3 id="1-1-Volatile"><a href="#1-1-Volatile" class="headerlink" title="1.1 Volatile"></a>1.1 Volatile</h3><p>volatile 是Java自带关键字，可以保证被修饰变量的<strong>单次读写</strong>是可见的。类似于i++这样的复合操作是没法保证操作的同步。Volatile是相较于Sychronized和Lock而言要更加的轻量级，但缺点是只能修饰单个变量。</p>
+<h3 id="1-2-Sychronized"><a href="#1-2-Sychronized" class="headerlink" title="1.2 Sychronized"></a>1.2 Sychronized</h3><p>Sychronized是通过锁实现同步的，而Java中的每个对象都可以作为一个锁。Sychronize可以修饰方法，代码块。当程序运行时，单个线程执行同步代码之前必须要获取到锁，代码执行结束或者抛出异常之后必须要释放锁。这个过程程序要不用关心。</p>
+<h3 id="1-3-Lock"><a href="#1-3-Lock" class="headerlink" title="1.3 Lock"></a>1.3 Lock</h3><p>Java中的Lock其实就是一个个提供了lock()和unlock()方法的类。而针对不同的场景，也有很多不同设计的锁可以选择。  </p>
+<h4 id="1-3-1-公平锁-非公平锁"><a href="#1-3-1-公平锁-非公平锁" class="headerlink" title="1.3.1 公平锁/非公平锁"></a>1.3.1 公平锁/非公平锁</h4><ul>
+<li>公平锁： 多个线程按照申请锁的顺序来获取锁</li>
+<li>非公平锁：多个</li>
+</ul>
+
       
     </div>
     <div class="article-footer">
