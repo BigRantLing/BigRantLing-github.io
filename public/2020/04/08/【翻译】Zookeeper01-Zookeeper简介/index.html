@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>【翻译】01-Zookeeper简介 | Seth&#39;s Blog</title>
+  <meta name="description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
+<meta name="keywords" content="zookeeper,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】01-Zookeeper简介">
+<meta property="og:url" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/index.html">
+<meta property="og:site_name" content="Seth&#39;s Blog">
+<meta property="og:description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkservice.jpg">
+<meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zknamespace.jpg">
+<meta property="og:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkcomponents.jpg">
+<meta property="og:updated_time" content="2020-04-08T12:19:29.823Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】01-Zookeeper简介">
+<meta name="twitter:description" content="Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。">
+<meta name="twitter:image" content="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/zkservice.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Seth&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/BigRantLing" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avtor.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Seth</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Bigdata  Engineer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/BigRantLing" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>90后<b>穷小伙</b>，人畜无害，请勿远离</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Apache-Druid/">Apache Druid</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java多线程/">Java多线程</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码分析/">代码分析</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据组件/">大数据组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/大数据组件/zookeeper/">zookeeper</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache-Druid/">Apache Druid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdata/">Bigdata</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUC/">JUC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OLAP/">OLAP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Problem-Shoting/">Problem Shoting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/asyn-syn/">asyn/syn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据组件/">大数据组件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能分析/">性能分析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰图/">火焰图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Apache-Druid/" style="font-size: 13px;">Apache Druid</a> <a href="/tags/Bigdata/" style="font-size: 13px;">Bigdata</a> <a href="/tags/JUC/" style="font-size: 13px;">JUC</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/OLAP/" style="font-size: 13px;">OLAP</a> <a href="/tags/Problem-Shoting/" style="font-size: 13px;">Problem Shoting</a> <a href="/tags/asyn-syn/" style="font-size: 13px;">asyn/syn</a> <a href="/tags/java/" style="font-size: 13px;">java</a> <a href="/tags/zookeeper/" style="font-size: 13px;">zookeeper</a> <a href="/tags/多线程/" style="font-size: 14px;">多线程</a> <a href="/tags/大数据/" style="font-size: 13px;">大数据</a> <a href="/tags/大数据组件/" style="font-size: 13px;">大数据组件</a> <a href="/tags/性能分析/" style="font-size: 13px;">性能分析</a> <a href="/tags/火焰图/" style="font-size: 13px;">火焰图</a> <a href="/tags/线程池/" style="font-size: 13px;">线程池</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/09/zookeeper-ZAB协议/" class="title">zookeeper-ZAB协议</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-09T02:10:14.000Z" itemprop="datePublished">2020-04-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/大数据组件/">大数据组件</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/大数据组件/zookeeper/">zookeeper</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" class="title">【翻译】01-Zookeeper简介</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-08T01:42:55.000Z" itemprop="datePublished">2020-04-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/运维/">运维</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/24/组件运维常用命令/" class="title">组件运维常用命令</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-24T12:19:01.000Z" itemprop="datePublished">2020-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java多线程/">Java多线程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/24/Java中的锁/" class="title">Java中的锁</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-24T06:55:42.000Z" itemprop="datePublished">2020-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java多线程/">Java多线程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/23/Java线程池原理/" class="title">Java线程池原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-23T09:22:54.000Z" itemprop="datePublished">2020-03-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-【翻译】Zookeeper01-Zookeeper简介" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【翻译】01-Zookeeper简介
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" class="article-date">
+	  <time datetime="2020-04-08T01:42:55.000Z" itemprop="datePublished">2020-04-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/大数据组件/">大数据组件</a>►<a class="article-category-link" href="/categories/大数据组件/zookeeper/">zookeeper</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/zookeeper/">zookeeper</a>, <a class="article-tag-link" href="/tags/大数据/">大数据</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>Zookeeper 是一款使用关于分布式应用的高性能协调服务。它可以通过一些简单的接口实现通用服务的可见性。例如命名，配置管理，同步以及组服务等等，使用zookeeper可以避免我们为这些功能进行耗时耗力的开发。开发人员可以直接使用现有的接口实现一致性，组管理，leader选举以及相关的业务协议。</p>
+<a id="more"></a>
+<h1 id="Zookeeper简介"><a href="#Zookeeper简介" class="headerlink" title="Zookeeper简介"></a>Zookeeper简介</h1><h2 id="1-Zookeeper：为分布式应用而生的分布式协调服务"><a href="#1-Zookeeper：为分布式应用而生的分布式协调服务" class="headerlink" title="1. Zookeeper：为分布式应用而生的分布式协调服务"></a>1. Zookeeper：为分布式应用而生的分布式协调服务</h2><p>Zookeeper 是一个适用于分布式应用的分布式协调服务组件。它为用户定义了一些基本的操作，用户可以基于这些操作实现自身应用的同步，配置维护，组管理和命名等需求。Zookeeper的设计的特点是使用类似文件系统的树结构，以及其易于理解和实现的编程。</p>
+<p>众所周知，协调服务很难确保其准确性。并且，处理不当的协调服务很容易引起竞争条件和死锁。而Zookeeper服务则让我们的应用不必耗费精力从头开始去实现这些协调和同步功能。</p>
+<h2 id="2-设计目标"><a href="#2-设计目标" class="headerlink" title="2. 设计目标"></a>2. 设计目标</h2><ol>
+<li><p><strong>简单：</strong>用户可以通过Zookeeper实现服务之间的协调服务，这归功于Zookeeper简单易懂的数据结构。Zookeeper使用了分层的命名空间，跟传统的文件系统类似。这些分层的命名空间维护着已注册的数据<strong>ZNode</strong>，类似传统文件系统中的文件或者文件夹，区别在于前者可以存储数据。因为Zookeeper的数据都是存储在内存中的，所以他可以在低实验的情况下实现较高的吞吐量。</p>
+<p>Zookeeper的实现非常重视<strong>高性能</strong>，<strong>高可用</strong>和<strong>严格有序的访问</strong>。高性能意味着Zookeeper适用于大型的分布式系统。高可用可以让Zookeeper有效的避免单点故障的问题。而严格有序可以让一些复杂的同步原语通过客户端就能实现。 </p>
+</li>
+</ol>
+<ol start="2">
+<li><p><strong>多副本：</strong>如同Zookeeper负责协调的组件类似，Zookeeper本身也实现了多副本机制。</p>
+<p><img src="zkservice.jpg" alt="zkservice"></p>
+<p>组成Zookeeper集群的服务器必须能够相互感知。他们共同维护了一个内存状态镜像以及存储在持久存储介质上的事务日志和snapshot。只要集群中的大部分节点是OK的，那么Zookeeper服务就是可用的。</p>
+<p>Zookeeper的客户端可以连接到集群中的任意一台服务器上。客户端需要维护自身的TCP连接，它会通过这个连接请求，获取服务端响应，获取watch时间，同时它也会通过这个连接来发送心跳信息。如果连接到服务端的TCP连接断掉了，客户端就会尝试连接到其他的服务端。</p>
+</li>
+</ol>
+<ol start="3">
+<li><p><strong>有序：</strong>对于每一个更新操作，Zookeeper都会通过一个数字标记。这个数字反映了这个操作在所有事物操作中的顺序。后续的操作就能通过这个序号来实现更高级别的抽象，例如同步原语。</p>
+</li>
+<li><p><strong>响应快速：</strong>Zookeeper很快，尤其是”读操作”，贼快！使用Zookeeper的应用运行在成千上万台服务器上，而Zookeeper在多读少写的场景中表现尤佳，一般情况下，读写比例大约在10:1会比较好。</p>
+</li>
+</ol>
+<h2 id="3-数据模型-amp-分层命名空间"><a href="#3-数据模型-amp-分层命名空间" class="headerlink" title="3. 数据模型 &amp; 分层命名空间"></a>3. 数据模型 &amp; 分层命名空间</h2><p>Zookeeper使用的命名空间和传统的文件系统很类似。名称是由路径组合而来。Zookeeper中每个node的命名空间都是一个路径。</p>
+<p><img src="zknamespace.jpg" alt="zknamespace"></p>
+<h2 id="4-节点-amp-临时节点"><a href="#4-节点-amp-临时节点" class="headerlink" title="4. 节点 &amp; 临时节点"></a>4. 节点 &amp; 临时节点</h2><p>Zookeeper和普通的文件系统不同的是他的节点可以关联数据，同时它还可以有子节点。如果站在普通文件系统的角度看，这就像是一个文件夹有数据内容。（Zookeeper这样设计的目的是为了存放协调数据：状态信息，配置，位置信息等等。所以在单个znode上存放的数据通常都比较小，一般在byte到kb之间。）Zookeeper中的数据节点一般称之为ZNode。</p>
+<p>  ZNode维护了一个<strong>状态数据结构</strong>，包含了版本号，表示数据更改，ACL更改，还有一个时间戳用于缓存确认和用于协调更新。每当一个ZNode数据改变时，其对应的版本号就会增加。Zookeeper客户端在获取ZNode数据的同时也会获取到它的版本号。</p>
+<p>存储在每个Znode上的数据都能都实现原子级别的读写。多操作获取节点对应的数据，写操作则会覆盖原来的数据。每个Znode都有一个Access Control List (ACL)来约束哪些用户有权限执行相关的操作。</p>
+<p>Zookeeper 中也有<strong>临时节点</strong>的概念。这种类型的节点会在客户端连接断开的时候删除，反之，只要客户端连接并没有执行删除操作的情况下，它就会一直存在。</p>
+<h2 id="5-条件更新-amp-watches"><a href="#5-条件更新-amp-watches" class="headerlink" title="5. 条件更新 &amp; watches"></a>5. 条件更新 &amp; watches</h2><p>Zookeeper支持Watch。客户端可以在ZNode上创建watch, watch 会跟ZNode删除及更改关联。 当一个watch被创建， 客户端就可以在ZNode更改的时候收到一些包表明Znode已经发生了更改。如果客户端和服务端的连接断开了，那么客户端会收到一个本地提示。  </p>
+<h2 id="6-提供的保证"><a href="#6-提供的保证" class="headerlink" title="6. 提供的保证"></a>6. 提供的保证</h2><p>Zookeeper很快也很简单。因为它的目标是作为构建更复杂的服务(比如同步)的基础，所以它提供了如下的保证：</p>
+<ul>
+<li><strong>顺序一致性</strong>：来自客户端的事务操作会按照提交的顺序一一执行；</li>
+<li><strong>原子性</strong>：更新操作要么成功要么失败，不会有中间结果；</li>
+<li><strong>单一视图</strong>：无论客户端连接的是哪个服务器，它看到的服务端数据模型都是一致的；</li>
+<li><strong>可靠性</strong>：一旦某个事务被执行了，那么执行结果就会一直保留，直到另一个客户端覆写了这个事务操作；</li>
+<li><strong>实时性</strong>：一旦事务操作被执行，那么Zookeeper可以保证在 <strong>一段时间</strong>  内这个操作会被所有的客户端感知到。即他能够保证最终一致性。</li>
+</ul>
+<h2 id="7-简单的API"><a href="#7-简单的API" class="headerlink" title="7. 简单的API"></a>7. 简单的API</h2><p>Zookeeper的设计目标之一就是提供简单的编程接口。所以，Zookeeper只支持以下的操作：  </p>
+<ul>
+<li><strong>create</strong>：在指定路径下创建ZNode；</li>
+<li><strong>delete</strong>：删除一个ZNode；</li>
+<li><strong>exists</strong>：判断指定的ZNode是否存在；</li>
+<li><strong>get data</strong>：读取ZNode的数据；</li>
+<li><strong>set data</strong>：设置ZNode的数据；</li>
+<li><strong>get children</strong>：获取指定ZNode的子目录列表；</li>
+<li><strong>sync</strong>：等待数据同步</li>
+</ul>
+<h2 id="8-实现"><a href="#8-实现" class="headerlink" title="8. 实现"></a>8. 实现</h2><p>下图展示了Zookeeper的高级组件。除了Request Processor之外，每个服务器都会有其他组件的副本。  </p>
+<p><img src="zkcomponents.jpg" alt="zkcomponents"></p>
+<p>Replicated Database(副本数据库)是一个内存数据库，它维护了整个集群的data tree。更新操作会被记录到磁盘上，这样它就可以被恢复了。同时，写操作被内存数据库执行之前也是先序列化到本地的。 </p>
+<p>每个Zookeeper服务端都可以为 客户端提供服务，客户端可以连接任意一个服务端来提交请求。对于 <strong>读</strong> 请求，服务端会从本地的内存数据库副本中获取数据返回，而对于 <strong>写</strong> 请求以及更改服务状态的请求则会由一致性协议来处理。  </p>
+<p>其一致性要求所有的来自客户端的 <strong>写</strong> 请求都要被转发到<strong>Leader</strong>节点上。除了Leader节点，剩下的节点称为 <strong>Follower</strong> 节点。它们会接受Leader节点的proposal，并且确定消息传递。消息层负责在出现故障时替换Leader，并将Follower与Leader同步。  </p>
+<p>Zookeeper使用自定义的原子性消息协议。因为消息层是原子性的，所以zookeeper可以保证本地的副本不会出现偏差。当Leader节点接收到一个写请求，它会计算执行这个写请求时系统的状态，然后将其转换成包含这一状态的事务。  </p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/" title="【翻译】01-Zookeeper简介" target="_blank" rel="external">http://sethblog.cn/2020/04/08/【翻译】Zookeeper01-Zookeeper简介/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/BigRantLing" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avtor.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/BigRantLing" target="_blank"><span class="text-dark">Seth</span><small class="ml-1x">Bigdata  Engineer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/04/09/zookeeper-ZAB协议/" title="zookeeper-ZAB协议"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/03/24/组件运维常用命令/" title="组件运维常用命令"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipay.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpay.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/BigRantLing" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'JXf4yqM3w3GLshg80BKzvl6b-gzGzoHsz',
+    appKey: 'I6l6do7E7NvpTOtq6y720jNc',
+    placeholder: '大兄弟！ 唠唠呗......',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
